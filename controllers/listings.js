@@ -33,8 +33,46 @@ async function getCoordinates(location) {
   return null;
 }
 
+// module.exports.index = async (req, res) => {
+//   const allListings = await Listing.find({});
+//   res.render("listings/index.ejs", { allListings });
+// };
+
+// module.exports.index = async (req, res) => {
+//   let { category } = req.query;
+
+//   let allListings;
+
+//   if (category) {
+//     allListings = await Listing.find({ category });
+//   } else {
+//     allListings = await Listing.find({});
+//   }
+
+//   res.render("listings/index.ejs", { allListings });
+// };
+
 module.exports.index = async (req, res) => {
-  const allListings = await Listing.find({});
+  let { category, search } = req.query;
+
+  let query = {};
+
+  // 🔍 Search logic
+  if (search) {
+    query.$or = [
+      { title: { $regex: search, $options: "i" } },
+      { location: { $regex: search, $options: "i" } },
+      { country: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  // 📂 Category filter
+  if (category) {
+    query.category = category;
+  }
+
+  const allListings = await Listing.find(query);
+
   res.render("listings/index.ejs", { allListings });
 };
 

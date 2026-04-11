@@ -1,26 +1,56 @@
 <% layout("/layouts/boilerplate")%>
     <style>
        #filters {
-        display: flex;
+        /* display: flex;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: center; */
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 1.5rem;
+        padding: 1rem 0;
+        scroll-behavior: smooth;
        }
 
+       #filters::-webkit-scrollbar {
+            display: none; /* hide scrollbar */
+        }
+
        .filter {
+        color: black;
         text-align: center;
         margin-right: 2rem;
         margin-top: 2rem;
-        opacity: 0.7;
+        opacity: 0.6;
+        transition: all 0.2s ease;
+        text-decoration: none !important;
+        flex-shrink: 0;
        }
+
+       .filter i {
+            font-size: 1.2rem;
+        }
+
+        .filter p {
+            font-size: 0.7rem;
+        }
+
+       
 
        .filter:hover {
         opacity: 1;
         cursor: pointer;
+        transform: scale(1.1);
        }
 
-       .filter p {
-        font-size: 0.8rem;
-       }
+       .filter div {
+            font-size: 1.3rem;
+        }
+       
+       .filter.active {
+        opacity: 1;
+        border-bottom: 2px solid black;
+        }
 
        .tax-info {
         display: none;
@@ -35,70 +65,72 @@
         display: flex;
         align-items: center;
        }
+
+        @media (max-width: 768px) {
+        .tax-toggle {
+            width: 100%;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        }
     </style>
+        <div id="filters">
 
-    <div id="filters">
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-fire"></i>
-            </div>
+        <a href="/listings" class="filter">
+            <div><i class="fa-solid fa-border-all"></i></div>
+            <p>All</p>
+        </a>
+
+        <a href="/listings?category=Trending" class="filter">
+            <div><i class="fa-solid fa-fire"></i></div>
             <p>Trending</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-bed"></i>
-            </div>
-            <p>Rooms</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-mountain-city"></i>
-            </div>
-            <p>Iconic cities</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-mountain"></i>
-            </div>
-            <p>Mountains</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-brands fa-fort-awesome"></i>
-            </div>
-            <p>Castle</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-snowflake"></i>
-            </div>
-            <p>Arctic</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-campground"></i>
-            </div>
-            <p>Camping</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-building-wheat"></i>
-            </div>
-            <p>Farms</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-igloo"></i>
-            </div>
-            <p>Domes</p>
-        </div>
-        <div class="filter">
-            <div>
-                <i class="fa-solid fa-sailboat"></i>
-            </div>
-            <p>Boats</p>
-        </div>
+        </a>
 
+        <a href="/listings?category=Rooms" class="filter">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Rooms</p>
+        </a>
+
+        <a href="/listings?category=Iconic Cities" class="filter">
+            <div><i class="fa-solid fa-mountain-city"></i></div>
+            <p>Iconic cities</p>
+        </a>
+
+        <a href="/listings?category=Mountains" class="filter">
+            <div><i class="fa-solid fa-mountain"></i></div>
+            <p>Mountains</p>
+        </a>
+
+        <a href="/listings?category=Castle" class="filter">
+            <div><i class="fa-brands fa-fort-awesome"></i></div>
+            <p>Castle</p>
+        </a>
+
+        <a href="/listings?category=Arctic" class="filter">
+            <div><i class="fa-solid fa-snowflake"></i></div>
+            <p>Arctic</p>
+        </a>
+
+        <a href="/listings?category=Camping" class="filter">
+            <div><i class="fa-solid fa-campground"></i></div>
+            <p>Camping</p>
+        </a>
+
+        <a href="/listings?category=Farms" class="filter">
+            <div><i class="fa-solid fa-building-wheat"></i></div>
+            <p>Farms</p>
+        </a>
+
+        <a href="/listings?category=Domes" class="filter">
+            <div><i class="fa-solid fa-igloo"></i></div>
+            <p>Domes</p>
+        </a>
+
+        <a href="/listings?category=Boats" class="filter">
+            <div><i class="fa-solid fa-sailboat"></i></div>
+            <p>Boats</p>
+        </a>
+        
         <div class="tax-toggle">
             <div class="form-check-reverse form-switch">
                 <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
@@ -107,6 +139,9 @@
         </div>
     </div>
     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+           <% if(allListings.length === 0) { %>
+                <h4 class="text-center mt-4">No listings found 😔</h4>
+            <% } %>
         <% for(let listing of allListings) { %>
             <a href="/listings/<%= listing._id %>" class="listing-link">
                 <div class="card col listing-card">

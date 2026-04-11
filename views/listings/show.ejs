@@ -1,3 +1,23 @@
+<style>
+      /* Hide map on desktop */
+    .mobile-map {
+      display: none;
+    }
+
+    /* Show map on mobile + tablet */
+    @media (max-width: 992px) {
+      .mobile-map {
+        display: block;
+      }
+
+      #map {
+        width: 100%;
+        height: 300px;
+        border-radius: 12px;
+      }
+    }
+</style>
+
 <% layout("/layouts/boilerplate")%>
 <script>
   const listing = <%- JSON.stringify(listing) %>;
@@ -20,7 +40,11 @@
       <p class="card-text">Owned by<i><%= listing.owner.username %></i></p>
       <p class="card-text"><%= listing.description%></p>
       <p class="card-text">&#8377; <%= listing.price.toLocaleString("en-IN") %> </p>
-      <p class="card-text"><%= listing.location%></p>        <p class="card-text"><%= listing.country%></p>
+      <p class="card-text"><%= listing.location%></p> 
+      <p class="card-text"><%= listing.country%></p>
+      <p class="card-text">
+        <b>Category:</b> <%= listing.category %>
+      </p>
     </div>
   </div>
 
@@ -113,15 +137,17 @@
           <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
           <p class="card-text"><%= review.comment %></p>
         </div>
-        <form class="mb-3" method="POST" action="/listings/<%= listing._id%>/reviews/<%= review._id%>?_method=DELETE">
-          <button class="btn btn-sm btn-dark">Delete</button>
-        </form>
+        <% if(currUser && review.author._id.equals(currUser._id)) { %>
+          <form class="mb-3" method="POST" action="/listings/<%= listing._id%>/reviews/<%= review._id%>?_method=DELETE">
+            <button class="btn btn-sm btn-dark">Delete</button>
+          </form>
+          <% } %>
        </div>
       <% } %>
     </div>
     <% } %>
   </div>
-  <div class="col-8 offset-3 mb-3">
+  <div class="col-8 offset-3 mb-3 mobile-map">
         <h3>Where you'll be</h3>
         <div id="map"></div>
   </div>

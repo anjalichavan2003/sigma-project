@@ -18,11 +18,67 @@
     padding: 0.5rem 3rem 0.5rem 3rem;
     font-size: 1rem;
   }
+
+@media (max-width: 768px) {
+
+  .navbar-collapse {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 0.5rem;
+  }
+
+  /* Stack properly */
+  .navbar-nav {
+    width: 100%;
+  }
+
+  .navbar-nav.ms-auto {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .search-form {
+    display: flex;
+    width: 100%;
+    margin: 0.5rem 0;
+    gap: 0.5rem;
+  }
+
+  .search-input {
+    flex: 1;
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .search-btn {
+    padding: 0.5rem 0.7rem;
+    border-radius: 25px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 8px;
+  }
+}
+@media (max-width: 768px) {
+  .nav-link {
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+  }
+}
+.staynest{
+  color: #fe424d;
+}
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-house-chimney staynest"></i></a>
     <button 
         class="navbar-toggler" 
         type="button" 
@@ -37,9 +93,21 @@
         <a class="nav-link" href="/listings">Explore</a>
       </div>
       <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search">
+          <!-- <form class="d-flex" role="search">
             <input class="form-control me-2 search-input" type="search" placeholder="Search destinations"/>
             <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+          </form> -->
+          <form class="d-flex search-form" role="search" action="/listings" method="GET">
+            <input 
+              class="form-control me-2 search-input" 
+              type="search" 
+              name="search"
+              placeholder="Search destinations"
+            />
+            <button class="btn search-btn" type="submit">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              Search
+            </button>
           </form>
       </div>
 
